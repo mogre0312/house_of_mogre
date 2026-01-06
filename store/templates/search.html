@@ -1,0 +1,29 @@
+{% extends "base.html" %} {% block content %}
+
+<div class="search-results">
+  {% if q %}
+  <h2>Search results for "<strong>{{ q }}</strong>" ({{ results|length }})</h2>
+  {% endif %} {% if results %}
+  <div class="product-list">
+    {% for product in results %}
+    <div class="product-item">
+      <h3>{{ product.title }}</h3>
+
+      {% if product.description %}
+      <p>{{ product.description|truncatechars:120 }}</p>
+      {% endif %} {% if product.price %}
+      <p><strong>₹{{ product.price }}</strong></p>
+      {% endif %}
+
+      <a href="{% url 'store:product_detail' product.slug %}"> View Details </a>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %} {% if q %}
+  <p class="no-results">No products found for "<strong>{{ q }}</strong>"</p>
+  {% else %}
+  <p>Please enter a search keyword.</p>
+  {% endif %} {% endif %}
+</div>
+
+{% endblock %}

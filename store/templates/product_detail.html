@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block content %}
+<div class="row">
+  <div class="col-md-6">
+    {% if images %}
+    <img
+      src="{{ images.0.image.url }}"
+      class="img-fluid"
+      alt="{{ images.0.alt_text }}"
+    />
+    <div class="mt-2">
+      {% for img in images %}
+      <img src="{{ img.image.url }}" style="width: 80px" class="me-1" />
+      {% endfor %}
+    </div>
+    {% endif %}
+  </div>
+  <div class="col-md-6">
+    <h2>{{ product.title }}</h2>
+    <p>
+      Category:
+      <a href="{% url 'store:category_detail' product.category.slug %}"
+        >{{ product.category.name }}</a
+      >
+    </p>
+    <h4>₹{{ product.price }}</h4>
+    <textsmall>Available Quantity-{{ product.sku}}</textsmall>
+    <p>{{ product.description|linebreaks }}</p>
+    <!-- Since no login, you can add "Enquire" button that opens mailto or a contact modal -->
+    <a
+      class="btn btn-primary"
+      href="mailto:info@example.com?subject=Enquiry about {{ product.title }}"
+      >Enquire</a
+    >
+    <a
+      href="{% url 'store:add_to_cart' product.slug %}"
+      class="btn btn-primary"
+    >
+      Add to Cart
+    </a>
+  </div>
+</div>
+{% endblock %}

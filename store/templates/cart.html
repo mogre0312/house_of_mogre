@@ -1,0 +1,59 @@
+{% extends "base.html" %} {% block content %}
+<h2>Your Cart</h2>
+
+{% if cart_items %}
+<table class="table">
+  <thead>
+    <tr>
+      <th>Product</th>
+      <th>Qty</th>
+      <th>Subtotal</th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    {% for item in cart_items %}
+    <tr>
+      <td>{{ item.product.title }}</td>
+      <td>
+        {% if item.qty > 1 %}
+
+        <a
+          href="{% url 'store:decrease_qty' item.product.id %}"
+          class="btn btn-outline-secondary btn-sm"
+          >−</a
+        >
+
+        {% else %}
+
+        <button class="btn btn-outline-secondary btn-sm" disabled>−</button>
+
+        {% endif %}
+
+        <span class="mx-2">{{ item.qty }}</span>
+
+        <a
+          href="{% url 'store:increase_qty' item.product.id %}"
+          class="btn btn-outline-secondary btn-sm"
+          >+</a
+        >
+      </td>
+      <td>₹{{ item.subtotal }}</td>
+      <td>
+        <a
+          href="{% url 'store:remove_from_cart' item.product.id %}"
+          class="btn btn-danger btn-sm"
+          >Remove</a
+        >
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<h3>Total: ₹{{ total }}</h3>
+
+{% else %}
+<p>Your cart is empty.</p>
+{% endif %} {% endblock %}
